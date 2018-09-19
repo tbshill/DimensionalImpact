@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Machine } from '../../../models/machine';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-machine-detail',
@@ -6,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./machine-detail.component.scss']
 })
 export class MachineDetailComponent implements OnInit {
+  @Input() machine: Machine;
 
+  activeMachineGroup = new FormGroup({
+    name: new FormControl(),
+    description: new FormControl(),
+  });
   constructor() { }
 
   ngOnInit() {

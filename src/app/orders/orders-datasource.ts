@@ -18,30 +18,6 @@ export interface OrdersItem {
   Status: String;
 }
 
-// TODO: replace this with real data from your application
-// const EXAMPLE_DATA: OrdersItem[] = [
-//   {invoice: 1, PO: 'None', sdate: '' , id: 1, name: 'Hydrogen'},
-//   {invoice: 2, PO: 'None', sdate: '' , id: 2, name: 'Helium'},
-//   {invoice: 3, PO: 'None', sdate: '' , id: 3, name: 'Lithium'},
-//   {invoice: 4, PO: 'None', sdate: '' , id: 4, name: 'Beryllium'},
-//   {invoice: 5, PO: 'None', sdate: '' , id: 5, name: 'Boron'},
-//   {invoice: 6, PO: 'None', sdate: '' , id: 6, name: 'Carbon'},
-//   {invoice: 7, PO: 'None', sdate: '' , id: 7, name: 'Nitrogen'},
-//   {invoice: 8, PO: 'None', sdate: '' , id: 8, name: 'Oxygen'},
-//   {invoice: 9, PO: 'None', sdate: '' , id: 9, name: 'Fluorine'},
-//   {invoice: 10, PO: 'None', sdate: '' , id: 10, name: 'Neon'},
-//   {invoice: 11, PO: 'None', sdate: '' , id: 11, name: 'Sodium'},
-//   {invoice: 12, PO: 'None', sdate: '' , id: 12, name: 'Magnesium'},
-//   {invoice: 13, PO: 'None', sdate: '' , id: 13, name: 'Aluminum'},
-//   {invoice: 14, PO: 'None', sdate: '' , id: 14, name: 'Silicon'},
-//   {invoice: 15, PO: 'None', sdate: '' , id: 15, name: 'Phosphorus'},
-//   {invoice: 16, PO: 'None', sdate: '' , id: 16, name: 'Sulfur'},
-//   {invoice: 17, PO: 'None', sdate: '' , id: 17, name: 'Chlorine'},
-//   {invoice: 18, PO: 'None', sdate: '' , id: 18, name: 'Argon'},
-//   {invoice: 19, PO: 'None', sdate: '' , id: 19, name: 'Potassium'},
-//   {invoice: 20, PO: 'None', sdate: '' , id: 20, name: 'Calcium'},
-// ];
-
 /**
  * Data source for the Orders view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data

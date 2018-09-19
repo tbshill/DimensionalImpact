@@ -17,7 +17,7 @@ export class MachinesService {
   }
 
   getMachinesObervable(): Observable<any> {
-    return( this.items);
+    return(this.items);
   }
 
   addMachine(data: Machine) {

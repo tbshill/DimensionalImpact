@@ -34,6 +34,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 
 
@@ -106,7 +108,8 @@ import { CustomersComponent } from './settings/customers/customers.component';
     MatStepperModule,
     MatAutocompleteModule,
     MatTabsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   providers: [OrdersService, MachinesService, MatDatepicker],
   bootstrap: [AppComponent],

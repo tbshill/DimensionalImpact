@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -45,7 +45,8 @@ export class OrderEditorComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<OrderEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private formBuilder: FormBuilder,
-    private customerService: CustomerService) { }
+    private customerService: CustomerService,
+    public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.orderGroup = this.formBuilder.group({
@@ -106,6 +107,10 @@ export class OrderEditorComponent implements OnInit {
   placeOrder(): void {
     console.log('Order is being placed');
     this._submitCustomer();
+
+    this.snackBar.open('Placed Order','Close',{
+      duration: 2000
+    });
   }
 
 

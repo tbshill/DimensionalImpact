@@ -1,18 +1,29 @@
-<form [formGroup]="activeMachineGroup">
-<br/>
-  <mat-slide-toggle>Running</mat-slide-toggle>
-  <br />
+<div class="mat-elevation-z0" *ngIf="machine">
 
+  <form>
+    <button mat-raised-button color="primary" style="margin: 10px">Save</button>
+    <mat-divider></mat-divider>
+    <h1>{{machine.name}}</h1>
+    <mat-slide-toggle [(ngModel)]="machine.running" name="running">Running</mat-slide-toggle>
+    <br />
 
-  <mat-form-field>
-    <input matInput placeholder="Machine Name">
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Machine Name" [(ngModel)]="machine.name" name="name">
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Purchased Date">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Machine Description" [(ngModel)]="machine.description" name="description">
+    </mat-form-field>
 
+    <mat-form-field>
+        <input matInput placeholder="Machine Quantity"  type="number" [(ngModel)]="machine.quantity" name="quantity">
+      </mat-form-field>
 
-</form>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Purchased Date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+  </form>
+</div>
