@@ -1,0 +1,18 @@
+<form [formGroup]="activeMachineGroup">
+<br/>
+  <mat-slide-toggle>Running</mat-slide-toggle>
+  <br />
+
+
+  <mat-form-field>
+    <input matInput placeholder="Machine Name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Purchased Date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+
+</form>

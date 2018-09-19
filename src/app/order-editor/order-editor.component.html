@@ -1,0 +1,120 @@
+<mat-horizontal-stepper #stepper>
+
+  <!--
+    This first section is where the customer's contact information is inputed into the system.
+  -->
+
+  <mat-step [stepControl]="customerGroup">
+    <form [formGroup]="customerGroup">
+      <ng-template matStepLabel>Contact Information</ng-template>
+
+      <mat-form-field>
+        <input matInput placeholder="Search For Esisting Customer">
+      </mat-form-field>
+
+      <mat-divider></mat-divider>
+
+      <mat-form-field>
+        <input matInput placeholder="Last Name" formControlName="firstName" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="First Name" formControlName="firstName" required>
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <input matInput placeholder="Company" formControlName="company" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" type="email" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Phone" formControlName="phone" required>
+      </mat-form-field>
+
+
+      <mat-divider></mat-divider>
+
+      <mat-form-field>
+        <input matInput placeholder="Street Address" formControlName="streetAddress" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Street Address 2" formControlName="street2Address">
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <input matInput placeholder="City" formControlName="city" required>
+
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Zip Code" formControlName="zip" required>
+      </mat-form-field>
+
+    </form>
+
+
+
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
+  <!--
+
+    This is where the order is created
+
+  -->
+
+  <mat-step [stepControl]="orderGroup">
+    <form [formGroup]="orderGroup">
+      <ng-template matStepLabel>Orders</ng-template>
+      <table formArrayName="orders">
+        <tr *ngFor="let order of orderGroup.get('orders').controls; let r=index;" [formGroupName]="r">
+
+          <!-- {{order.value | json}} -->
+          <mat-form-field>
+              <input type="text" placeholder="Product" aria-label="Number" matInput formControlName="product" [matAutocomplete]="auto">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput type="number" placeholder="1" formControlName="quantity" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Notes" formControlName="notes">
+          </mat-form-field>
+
+          <button mat-button (click)="removeOrder(r)">Delete</button>
+        </tr>
+      </table>
+
+
+      <button mat-raised-button color="primary" (click)="addOrder()">Add</button>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+
+
+  <mat-step>
+    <ng-template matStepLabel>Confirmation</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="placeOrder()" mat-dialog-close>Place Order</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

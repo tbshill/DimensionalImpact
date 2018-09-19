@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Create New Machine</h2>
+<form [formGroup]="machineGroup">
+    <mat-form-field>
+      <input matInput placeholder="Machine Name" formControlName="name" required>
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+        <input matInput placeholder="Description" formControlName="description">
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+        <input matInput type="number" placeholder="1" formControlName="quantity">
+    </mat-form-field>
+
+    <mat-divider></mat-divider>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+        <button mat-button [mat-dialog-close]="true" (click)="addMachine()">Create</button>
+      </mat-dialog-actions>
+      {{machineGroup.value | json}}
+</form>
