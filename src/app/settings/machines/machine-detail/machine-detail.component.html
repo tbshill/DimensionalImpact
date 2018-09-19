@@ -1,7 +1,7 @@
 <div class="mat-elevation-z0" *ngIf="machine">
 
   <form>
-    <button mat-raised-button color="primary" style="margin: 10px">Save</button>
+    <button mat-raised-button color="primary" style="margin: 10px" (click)="saveMachine()">Save</button>
     <mat-divider></mat-divider>
     <h1>{{machine.name}}</h1>
     <mat-slide-toggle [(ngModel)]="machine.running" name="running">Running</mat-slide-toggle>

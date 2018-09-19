@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Machine } from '../../../models/machine';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MachinesService } from '../../../services/machines.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-machine-detail',
@@ -14,9 +16,17 @@ export class MachineDetailComponent implements OnInit {
     name: new FormControl(),
     description: new FormControl(),
   });
-  constructor() { }
+  constructor(private machineService: MachinesService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
+  }
+
+  saveMachine(): void {
+    this.machineService.saveMachine(this.machine);
+    this.snackBar.open('Machine Saved', 'Close', {
+      duration: 2000
+    });
+
   }
 
 }

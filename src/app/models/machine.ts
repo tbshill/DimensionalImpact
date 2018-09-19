@@ -4,5 +4,6 @@ export class Machine {
   running?: Boolean;
   description: String;
   quantity: Number;
-  id?: Object;
+  id?: string;
+  path?: string;
 }
