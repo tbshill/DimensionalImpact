@@ -4,26 +4,42 @@ import { OrdersDataSource } from './orders-datasource';
 import { OrdersService } from '../services/orders.service';
 import { OrderEditorComponent } from '../order-editor/order-editor.component';
 
-
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort;
   dataSource: OrdersDataSource;
   aquiring_data = true;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   // tslint:disable-next-line:max-line-length
-  displayedColumns = ['Invoice', 'PO', 'Order Date', 'Shipped Date', 'Adjusted Shipped Date', 'Customer', 'Dealer', 'Items', 'Notes', 'Status'];
+  displayedColumns = [
+    'Invoice',
+    'PO',
+    'Order Date',
+    'Shipped Date',
+    'Adjusted Shipped Date',
+    'Customer',
+    'Dealer',
+    'Items',
+    'Notes',
+    'Status'
+  ];
 
   constructor(private orders: OrdersService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.dataSource = new OrdersDataSource(this.paginator, this.sort, this.orders);
+    this.dataSource = new OrdersDataSource(
+      this.paginator,
+      this.sort,
+      this.orders
+    );
   }
 
   onRowClicked(row) {
@@ -38,6 +54,4 @@ export class OrdersComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
-
-
 }

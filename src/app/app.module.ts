@@ -32,12 +32,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
-
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -51,14 +51,19 @@ import { ProductsComponent } from './settings/products/products.component';
 import { OtherComponent } from './settings/other/other.component';
 import { MachineMasterComponent } from './settings/machines/machine-master/machine-master.component';
 import { MachineDetailComponent } from './settings/machines/machine-detail/machine-detail.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MachinesService } from './services/machines.service';
 import { MachineEditorComponent } from './settings/machines/machine-editor/machine-editor.component';
 import { UsersComponent } from './settings/users/users.component';
 import { ProductsMasterComponent } from './settings/products/products-master/products-master.component';
 import { ProductsDetailComponent } from './settings/products/products-detail/products-detail.component';
 import { CustomersComponent } from './settings/customers/customers.component';
+import { ProductEditorComponent } from './settings/products/product-editor/product-editor.component';
+import { WorkflowComponent } from './settings/workflow/workflow.component';
 
+// import { NgxDnDModule } from '@swimlane/dragula';
+
+// import { DndModule } from '@beyerleinf/ngx-dnd';
 
 @NgModule({
   declarations: [
@@ -78,6 +83,8 @@ import { CustomersComponent } from './settings/customers/customers.component';
     ProductsMasterComponent,
     ProductsDetailComponent,
     CustomersComponent,
+    ProductEditorComponent,
+    WorkflowComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -109,10 +116,17 @@ import { CustomersComponent } from './settings/customers/customers.component';
     MatAutocompleteModule,
     MatTabsModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    DragDropModule,
+    MatChipsModule,
+    MatSelectModule
   ],
   providers: [OrdersService, MachinesService, MatDatepicker],
   bootstrap: [AppComponent],
-  entryComponents: [OrderEditorComponent, MachineEditorComponent]
+  entryComponents: [
+    OrderEditorComponent,
+    MachineEditorComponent,
+    ProductEditorComponent
+  ]
 })
 export class AppModule {}

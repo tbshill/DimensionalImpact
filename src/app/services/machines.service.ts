@@ -19,15 +19,11 @@ export class MachinesService {
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Machine;
         const id = a.payload.doc.id;
-        const path = a.payload.doc.ref.path;
-        return { id, path, ...data };
+        return { id, ...data };
       })));
   }
 
   getMachinesObervable(): Observable<any> {
-
-
-
     return(this.items);
   }
 

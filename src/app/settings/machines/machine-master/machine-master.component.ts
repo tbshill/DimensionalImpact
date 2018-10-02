@@ -6,6 +6,7 @@ import { MachineEditorComponent } from '../machine-editor/machine-editor.compone
 import { Machine } from '../../../models/machine';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'app-settings/machines/machine-master',
   templateUrl: './machine-master.component.html',
   styleUrls: ['./machine-master.component.css']
@@ -21,9 +22,8 @@ export class MachineMasterComponent implements OnInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['name', 'description', 'quantity', 'running'];
-  constructor(private machinesService: MachinesService, public dialog: MatDialog) {
+  constructor(private machinesService: MachinesService, public dialog: MatDialog) { }
 
-  }
   ngOnInit() {
     this.dataSource = new MachineMasterDataSource(this.paginator, this.sort, this.machinesService);
   }
@@ -42,7 +42,6 @@ export class MachineMasterComponent implements OnInit {
   }
 
   editMachine(row) {
-    console.log();
     this.selectMachineEvent.emit(row);
   }
 }

@@ -1,10 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  FormArray
+} from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { CustomerService } from '../services/customer.service';
-
+import { OrdersService } from '../services/orders.service';
 
 export interface DialogData {
   animal: string;
@@ -13,7 +19,6 @@ export interface DialogData {
 
 // TODO Implement loading an existing customer
 
-
 @Component({
   selector: 'app-order-editor',
   templateUrl: './order-editor.component.html',
@@ -21,7 +26,6 @@ export interface DialogData {
 })
 export class OrderEditorComponent implements OnInit {
   public orderGroup: FormGroup;
-
 
   customerGroup = new FormGroup({
     firstName: new FormControl(''),
@@ -41,26 +45,27 @@ export class OrderEditorComponent implements OnInit {
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
-
-  constructor(public dialogRef: MatDialogRef<OrderEditorComponent>,
+  constructor(
+    public dialogRef: MatDialogRef<OrderEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,
+    public orderService: OrdersService
+  ) {}
 
   ngOnInit() {
     this.orderGroup = this.formBuilder.group({
       orders: this.formBuilder.array([])
     });
 
-    this.filteredOptions = (this.orderGroup.get('orders') as FormArray).valueChanges.pipe(
+    this.filteredOptions = (this.orderGroup.get(
+      'orders'
+    ) as FormArray).valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))
     );
-
-
   }
-
 
   private _filter(value: string): string[] {
     // TODO Fix the AutoComplete on the proudct page
@@ -70,7 +75,6 @@ export class OrderEditorComponent implements OnInit {
 
     return this.options.filter(option => option.indexOf(filterValue) === 0);
   }
-
 
   getRow() {
     const newRow = this.formBuilder.group({
@@ -83,7 +87,6 @@ export class OrderEditorComponent implements OnInit {
   }
 
   addOrder() {
-
     const newRow = this.formBuilder.group({
       product: [''],
       quantity: [''],
@@ -91,7 +94,6 @@ export class OrderEditorComponent implements OnInit {
     });
 
     (this.orderGroup.get('orders') as FormArray).push(this.getRow());
-
   }
 
   removeOrder(index: number) {
@@ -106,16 +108,12 @@ export class OrderEditorComponent implements OnInit {
 
   placeOrder(): void {
     console.log('Order is being placed');
-    this._submitCustomer();
+    const customerData = this.customerGroup.value;
+    const orderData = this.orderGroup.value;
 
-    this.snackBar.open('Placed Order','Close',{
+    this.orderService.addOrder(customerData, orderData);
+    this.snackBar.open('Placed Order', 'Close', {
       duration: 2000
     });
-  }
-
-
-  private _submitCustomer() {
-    const data = this.customerGroup.value;
-    this.customerService.addCustomer(data);
   }
 }

@@ -1,0 +1,32 @@
+<h3 *ngIf="product; else newProduct">{{product.name}}</h3>
+<ng-template #newProduct>
+  Create New Product
+</ng-template>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-md container">
+      <cdk-drop #todoList [data]="processes" class="list" (dropped)="drop($event)">
+        <div class="box" *ngFor="let process of processes" cdkDrag>{{process.name}}<mat-chip-list>
+            <mat-chip>{{process.duration}}min</mat-chip>
+          </mat-chip-list>
+        </div>
+
+      </cdk-drop>
+      <mat-select placeholder="What Machine">
+        <mat-option>
+          CNC
+        </mat-option>
+        <mat-option>
+          Sandblaster
+        </mat-option>
+      </mat-select>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Duration" value="0">
+      </mat-form-field>
+      <button color="primary" mat-raised-button style="margin-top: 10px; margin-bottom: 10px">Add Process</button>
+    </div>
+  </div>
+</div>
