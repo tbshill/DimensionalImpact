@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductTemplate } from '../../../models/product-template';
+import { ProductTemplate } from '../../../Store/models/product-template.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 interface Process {

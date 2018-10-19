@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Machine } from '../../models/machine';
+import { Machine } from '../../Store/models/machine.model';
 import { MatPaginator } from '@angular/material';
 import { MachineDetailComponent } from './machine-detail/machine-detail.component';
 
@@ -10,17 +10,16 @@ import { MachineDetailComponent } from './machine-detail/machine-detail.componen
 })
 export class MachinesComponent implements OnInit {
   public selectedMachineEvent: Machine;
-  @ViewChild(MachineDetailComponent) detailView: MachineDetailComponent;
+  @ViewChild(MachineDetailComponent)
+  detailView: MachineDetailComponent;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   selectMachineEvent(machine: Machine): void {
     console.log(machine);
     // this.selectedMachineEvent = machine;
     this.detailView.machine = machine;
-
   }
 }

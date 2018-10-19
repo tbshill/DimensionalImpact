@@ -2,10 +2,8 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { ProductTemplate } from '../../../models/product-template';
+import { ProductTemplate } from '../../../Store/models/product-template.model';
 import { ProductTemplatesService } from '../../../services/product-templates.service';
-
-
 
 // TODO: Replace this with your own data model type
 export interface MachineItem {
@@ -18,10 +16,16 @@ export interface MachineItem {
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class ProductTemplateMasterDataSource extends DataSource<ProductTemplate> {
+export class ProductTemplateMasterDataSource extends DataSource<
+  ProductTemplate
+> {
   data: ProductTemplate[];
 
-  constructor(private paginator: MatPaginator, private sort: MatSort, private ptService: ProductTemplatesService) {
+  constructor(
+    private paginator: MatPaginator,
+    private sort: MatSort,
+    private ptService: ProductTemplatesService
+  ) {
     super();
   }
 
@@ -77,9 +81,11 @@ export class ProductTemplateMasterDataSource extends DataSource<ProductTemplate>
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'name': return compare(a.name, b.name, isAsc);
+        case 'name':
+          return compare(a.name, b.name, isAsc);
         // case 'id': return compare(+a.id, +b.id, isAsc);
-        default: return 0;
+        default:
+          return 0;
       }
     });
   }

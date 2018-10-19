@@ -1,4 +1,4 @@
-import { ProductTemplate } from './product-template';
+import { ProductTemplate } from './product-template.model';
 
 export class Order {
   Invoice: number;

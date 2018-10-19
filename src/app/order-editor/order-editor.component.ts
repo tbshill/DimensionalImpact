@@ -7,10 +7,12 @@ import {
   FormControl,
   FormArray
 } from '@angular/forms';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, filter, switchMap, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { CustomerService } from '../services/customer.service';
 import { OrdersService } from '../services/orders.service';
+import { PartService } from '../services/part.service';
+import { Part } from '../Store/models/Part.model';
 
 export interface DialogData {
   animal: string;
@@ -25,6 +27,8 @@ export interface DialogData {
   styleUrls: ['./order-editor.component.scss']
 })
 export class OrderEditorComponent implements OnInit {
+  productList: any[] = [];
+
   public orderGroup: FormGroup;
 
   customerGroup = new FormGroup({
@@ -41,9 +45,9 @@ export class OrderEditorComponent implements OnInit {
     zip: new FormControl('')
   });
 
-  // TODO: This needs to be a list of the products.
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
+  nextInvoice: Observable<number>;
+
+  filteredOptions: Observable<Part[]>;
 
   constructor(
     public dialogRef: MatDialogRef<OrderEditorComponent>,
@@ -51,7 +55,8 @@ export class OrderEditorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private customerService: CustomerService,
     public snackBar: MatSnackBar,
-    public orderService: OrdersService
+    public orderService: OrdersService,
+    public partsService: PartService
   ) {}
 
   ngOnInit() {
@@ -59,21 +64,27 @@ export class OrderEditorComponent implements OnInit {
       orders: this.formBuilder.array([])
     });
 
+    this.nextInvoice = this.orderService
+      .getNextInvoiceNumberObservable()
+      .pipe(tap(next => console.log('Next Invoice Number: ' + next)));
+  }
+
+  onSelectProduct(index, product) {
+    if (this.productList.length > index) {
+      this.productList[index] = product;
+    } else {
+      this.productList.push = product;
+    }
+  }
+
+  onInput(index): void {
+    console.log(index);
     this.filteredOptions = (this.orderGroup.get(
       'orders'
     ) as FormArray).valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
+      switchMap(value => this.partsService.search(value[index].product)),
+      take(1)
     );
-  }
-
-  private _filter(value: string): string[] {
-    // TODO Fix the AutoComplete on the proudct page
-
-    // const filterValue = value.toLowerCase();
-    const filterValue = value;
-
-    return this.options.filter(option => option.indexOf(filterValue) === 0);
   }
 
   getRow() {
@@ -87,19 +98,17 @@ export class OrderEditorComponent implements OnInit {
   }
 
   addOrder() {
-    const newRow = this.formBuilder.group({
-      product: [''],
-      quantity: [''],
-      notes: ['']
-    });
-
     (this.orderGroup.get('orders') as FormArray).push(this.getRow());
+    this.productList.push({});
+    console.log(this.productList);
   }
 
   removeOrder(index: number) {
     console.log('Removing row', index);
 
     (this.orderGroup.get('orders') as FormArray).removeAt(index);
+    this.productList.splice(index, 1);
+    console.log(this.productList);
   }
 
   onNoClick(): void {
@@ -111,9 +120,18 @@ export class OrderEditorComponent implements OnInit {
     const customerData = this.customerGroup.value;
     const orderData = this.orderGroup.value;
 
-    this.orderService.addOrder(customerData, orderData);
+    console.log(customerData);
+    console.log(orderData);
+    console.log(this.productList);
+
+    this.orderService.addOrder(customerData, this.productList);
+
     this.snackBar.open('Placed Order', 'Close', {
       duration: 2000
     });
+  }
+
+  searchForCustomer(): void {
+    console.log('Searching for customer');
   }
 }

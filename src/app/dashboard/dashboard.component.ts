@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Breakpoints, BreakpointState, BreakpointObserver } from '@angular/cdk/layout';
+import {
+  Breakpoints,
+  BreakpointState,
+  BreakpointObserver
+} from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { OrdersService } from '../services/orders.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   aquiring_data = true;
+  orderCount: Observable<number>;
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     // Mobile
@@ -32,5 +39,12 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public orderService: OrdersService
+  ) {}
+
+  ngOnInit(): void {
+    this.orderCount = this.orderService.getOrderCountObservable();
+  }
 }

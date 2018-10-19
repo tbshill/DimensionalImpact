@@ -60,6 +60,11 @@ import { ProductsDetailComponent } from './settings/products/products-detail/pro
 import { CustomersComponent } from './settings/customers/customers.component';
 import { ProductEditorComponent } from './settings/products/product-editor/product-editor.component';
 import { WorkflowComponent } from './settings/workflow/workflow.component';
+import { InlineEditComponent } from './inline-edit/inline-edit.component';
+
+import { SatPopoverModule } from '@ncstate/sat-popover';
+import { PhonePipe } from './phone.pipe';
+import { OrderCountTileComponent } from './dashboard/order-count-tile/order-count-tile.component';
 
 // import { NgxDnDModule } from '@swimlane/dragula';
 
@@ -84,7 +89,10 @@ import { WorkflowComponent } from './settings/workflow/workflow.component';
     ProductsDetailComponent,
     CustomersComponent,
     ProductEditorComponent,
-    WorkflowComponent
+    WorkflowComponent,
+    InlineEditComponent,
+    PhonePipe,
+    OrderCountTileComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -119,7 +127,8 @@ import { WorkflowComponent } from './settings/workflow/workflow.component';
     MatSnackBarModule,
     DragDropModule,
     MatChipsModule,
-    MatSelectModule
+    MatSelectModule,
+    SatPopoverModule
   ],
   providers: [OrdersService, MachinesService, MatDatepicker],
   bootstrap: [AppComponent],

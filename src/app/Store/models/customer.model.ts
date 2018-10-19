@@ -1,4 +1,4 @@
-import { Order } from './order';
+import { Order } from './order.model';
 
 export class Customer {
   firstName: string;
@@ -13,5 +13,5 @@ export class Customer {
   state: string;
   zip: string;
 
-  orders?: Array<Order>;
+  orders?: String[]; // List of Object IDs for Orders;
 }

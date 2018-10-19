@@ -11,11 +11,12 @@
       <mat-form-field>
         <input matInput placeholder="Search For Esisting Customer">
       </mat-form-field>
+      <button mat-raised-button color="primary" (click)="searchForCustomer()" style="margin-left: 10px;">Search</button>
 
       <mat-divider></mat-divider>
 
       <mat-form-field>
-        <input matInput placeholder="Last Name" formControlName="firstName" required>
+        <input matInput placeholder="Last Name" formControlName="lastName" required>
       </mat-form-field>
 
       <mat-form-field>
@@ -45,6 +46,10 @@
         <input matInput placeholder="Street Address 2" formControlName="street2Address">
       </mat-form-field>
       <br />
+      <mat-form-field>
+        <input matInput placeholder="State" formControlName="state" required>
+
+      </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="City" formControlName="city" required>
 
@@ -77,12 +82,13 @@
 
           <!-- {{order.value | json}} -->
           <mat-form-field>
-              <input type="text" placeholder="Product" aria-label="Number" matInput formControlName="product" [matAutocomplete]="auto">
-              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
+            <input type="text" placeholder="Product" aria-label="Number" matInput formControlName="product"
+              [matAutocomplete]="auto" (keydown)="onInput(r)">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (click)="onSelectProduct(r,option)">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
 
           <mat-form-field>
@@ -108,10 +114,61 @@
   </mat-step>
 
 
-
   <mat-step>
     <ng-template matStepLabel>Confirmation</ng-template>
-    You are now done.
+
+
+
+    <h3> Billing Information</h3>
+    <table>
+      <tr>
+        <td><b>Customer</b></td>
+        <td>{{customerGroup.value.firstName}} {{customerGroup.value.lastName}}</td>
+      </tr>
+
+
+      <tr>
+        <td><b>Company:</b></td>
+        <td>{{customerGroup.value.company}}</td>
+      </tr>
+
+
+      <tr>
+        <td><b>Address:</b> </td>
+        <td>{{customerGroup.value.streetAddress}} {{customerGroup.value.street2Address}}</td>
+      </tr>
+
+      <tr>
+        <td></td>
+        <td>{{customerGroup.value.city}} {{customerGroup.value.state}}, {{customerGroup.value.zip}}</td>
+      </tr>
+
+      <tr>
+        <td><b>Email:</b></td>
+        <td>{{customerGroup.value.email}}</td>
+      </tr>
+
+      <tr>
+        <td><b>Phone:</b></td>
+        <td>{{customerGroup.value.phone | phone}}</td>
+      </tr>
+    </table>
+
+
+    <mat-divider></mat-divider>
+    <h3 style="margin-top: 10px;">Order - #{{nextInvoice | async}}</h3>
+    <table>
+      <thead>
+        <td><b>Product</b></td>
+        <td><b>Quantity</b></td>
+        <td><b>Notes</b></td>
+      </thead>
+      <tr *ngFor="let order of orderGroup.value.orders ">
+        <td>{{order.product}}</td>
+        <td>{{order.quantity}}</td>
+        <td>{{order.notes}}</td>
+    </table>
+
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-raised-button color="primary" (click)="placeOrder()" mat-dialog-close>Place Order</button>

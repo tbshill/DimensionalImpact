@@ -3,89 +3,95 @@
   <h1 class="mat-h1">Dashboard</h1>
   <mat-grid-list cols="4" rowHeight="300px">
 
-      <mat-grid-tile [colspan]="1" [rowspan]="1">
-          <mat-card class="dashboard-card">
-            <mat-card-header>
-              <mat-card-title>
-                Average Number of Boards per day
-                <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Average Number of Boards per day
+            <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
                   <mat-icon>...</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" xPosition="before">
                   <button mat-menu-item>Expand</button>
                   <button mat-menu-item>Remove</button>
                 </mat-menu> -->
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="dashboard-card-content">
-              <h1 style="font-size: 5rem">103</h1>
-              <h5>Boards Per Day</h5>
-            </mat-card-content>
-          </mat-card>
-        </mat-grid-tile>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="font-size: 5rem">103</h1>
+          <h5>Boards Per Day</h5>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
 
 
-        <mat-grid-tile [colspan]="2" [rowspan]="1">
-            <mat-card class="dashboard-card">
-              <mat-card-header>
-                <mat-card-title>
-                  All orders completed by
-                  <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            All orders completed by
+            <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
                     <mat-icon>...</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu" xPosition="before">
                     <button mat-menu-item>Expand</button>
                     <button mat-menu-item>Remove</button>
                   </mat-menu> -->
-                </mat-card-title>
-              </mat-card-header>
-              <mat-card-content class="dashboard-card-content">
-                <h1 style="font-size: 5rem">Sept 22, 2018</h1>
-              </mat-card-content>
-            </mat-card>
-          </mat-grid-tile>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <h1 style="font-size: 5rem">Sept 22, 2018</h1>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
 
-          <mat-grid-tile [colspan]="1" [rowspan]="1">
-              <mat-card class="dashboard-card">
-                <mat-card-header>
-                  <mat-card-title>
-                    Orders Queued
-                    <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                      <mat-icon>...</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu" xPosition="before">
-                      <button mat-menu-item>Expand</button>
-                      <button mat-menu-item>Remove</button>
-                    </mat-menu> -->
-                  </mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="dashboard-card-content">
-                  <h1 style="font-size: 5rem">53</h1>
-                  <h5>Orders left to complete</h5>
-                </mat-card-content>
-              </mat-card>
-            </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Orders Queued
+            <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                              <mat-icon>...</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                              <button mat-menu-item>Expand</button>
+                              <button mat-menu-item>Remove</button>
+                            </mat-menu> -->
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
 
 
-          <mat-grid-tile [colspan]="4" [rowspan]="2">
-              <mat-card class="dashboard-card">
-                <mat-card-header>
-                  <mat-card-title>
-                    Order Summary
-                    <!-- <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                      <mat-icon>...</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu" xPosition="before">
-                      <button mat-menu-item>Expand</button>
-                      <button mat-menu-item>Remove</button>
-                    </mat-menu> -->
-                  </mat-card-title>
-                </mat-card-header>
-                <mat-card-content class="dashboard-card-content">
-                  <app-orders></app-orders>
-                </mat-card-content>
-              </mat-card>
-            </mat-grid-tile>
+          <ng-container *ngIf="orderCount; else elseTemplate">
+            <h1 *ngIf="orderCount" style="font-size: 5rem">{{orderCount | async}}</h1>
+            <h5>Orders left to complete</h5>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <mat-spinner></mat-spinner>
+          </ng-template>
+
+
+
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </mat-grid-tile>
+
+
+    <mat-grid-tile [colspan]="4" [rowspan]="2">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Order Summary
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <app-orders></app-orders>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
 
 
 

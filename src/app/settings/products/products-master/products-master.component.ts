@@ -1,5 +1,11 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ProductTemplate } from '../../../models/product-template';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import { ProductTemplate } from '../../../Store/models/product-template.model';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { ProductTemplatesService } from '../../../services/product-templates.service';
 import { ProductTemplateMasterDataSource } from './products-master-datasource';
@@ -11,17 +17,27 @@ import { ProductEditorComponent } from '../product-editor/product-editor.compone
   styleUrls: ['./products-master.component.scss']
 })
 export class ProductsMasterComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort;
   dataSource: ProductTemplateMasterDataSource;
 
-  @Output() selectProductEvent = new EventEmitter<ProductTemplate>();
+  @Output()
+  selectProductEvent = new EventEmitter<ProductTemplate>();
 
   displayedColumns = ['name', 'description', 'cost'];
-  constructor(private ptService: ProductTemplatesService, public dialog: MatDialog) { }
+  constructor(
+    private ptService: ProductTemplatesService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
-    this.dataSource = new ProductTemplateMasterDataSource(this.paginator, this.sort, this.ptService);
+    this.dataSource = new ProductTemplateMasterDataSource(
+      this.paginator,
+      this.sort,
+      this.ptService
+    );
   }
 
   createProductTemplate() {
@@ -36,5 +52,4 @@ export class ProductsMasterComponent implements OnInit {
   editProductTemplate(row) {
     this.selectProductEvent.emit(row);
   }
-
 }

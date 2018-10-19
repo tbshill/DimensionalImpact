@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProductTemplate } from '../../models/product-template';
+import { ProductTemplate } from '../../Store/models/product-template.model';
 import { ProductsDetailComponent } from './products-detail/products-detail.component';
 
 @Component({
@@ -9,17 +9,15 @@ import { ProductsDetailComponent } from './products-detail/products-detail.compo
 })
 export class ProductsComponent implements OnInit {
   public selectedProduct: ProductTemplate;
-  @ViewChild(ProductsDetailComponent) detailView: ProductsDetailComponent;
+  @ViewChild(ProductsDetailComponent)
+  detailView: ProductsDetailComponent;
 
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   selectProductEvent(product: ProductTemplate): void {
     console.log('Selected Product: ', product);
     this.detailView.product = product;
   }
-
 }

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Customer } from '../models/customer';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from '@angular/fire/firestore';
+import { Customer } from '../Store/models/customer.model';
 import { Observable, from } from 'rxjs';
 
 @Injectable({
@@ -14,17 +17,13 @@ export class CustomerService {
     this.customerCollection = db.collection('Customers');
   }
 
-
   addCustomer(data): void {
     this.customerCollection.add(data);
   }
 
   findCustomer(name): Observable<any> {
-
-    return from(this.customerCollection.ref.where('companyName', '==', name).get());
-
+    return from(
+      this.customerCollection.ref.where('companyName', '==', name).get()
+    );
   }
-
-
-
 }

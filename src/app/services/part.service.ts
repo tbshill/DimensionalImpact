@@ -3,17 +3,19 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { Part } from '../models/Part';
+import { Part } from '../Store/models/Part.model';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
+import { MachinesService } from './machines.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartService {
   private partsCollection: AngularFirestoreCollection;
+  private columns: String[] = [];
 
-  constructor(db: AngularFirestore) {
+  constructor(db: AngularFirestore, public machineService: MachinesService) {
     this.partsCollection = db.collection<Part>('Parts');
   }
 
@@ -29,177 +31,163 @@ export class PartService {
     );
   }
 
+  public updatePart(part: Part): void {
+    console.log(part);
+    this.partsCollection.doc<Part>(part.id).set(part);
+  }
+
   public refreshCollection(): void {
     const TEST_DATA: Part[] = [
       {
-        name: 'BK-Prt',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 5.75 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 4 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 0 },
-          { name: 'Hand Sand', duration: 0 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 5 },
-          { name: 'Paint top color', duration: 0 },
-          { name: 'Clearcoat', duration: 0 }
-        ]
-      },
-      {
         name: 'BK-Wht',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 5.75 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 4 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 2.5 },
-          { name: 'Hand Sand', duration: 0 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 0 },
-          { name: 'Paint top color', duration: 2.5 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 5.75 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 4 },
+          { machine_name: 'Base H2O', duration: 3.5 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 2.5 },
+          { machine_name: 'Hand Sand', duration: 0 },
+          { machine_name: 'Flap Sand', duration: 0 },
+          { machine_name: 'Print', duration: 0 },
+          { machine_name: 'Paint top color', duration: 2.5 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       },
       {
         name: 'BKDP-FJ',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 14.5 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 4 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 0 },
-          { name: 'Hand Sand', duration: 0 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 5 },
-          { name: 'Paint top color', duration: 0 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 14.5 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 4 },
+          { machine_name: 'Base H2O', duration: 3.5 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 0 },
+          { machine_name: 'Hand Sand', duration: 0 },
+          { machine_name: 'Flap Sand', duration: 0 },
+          { machine_name: 'Print', duration: 5 },
+          { machine_name: 'Paint top color', duration: 0 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       },
       {
         name: 'BKDP-BC',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 6.7 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 4 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 0 },
-          { name: 'Hand Sand', duration: 0 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 5 },
-          { name: 'Paint top color', duration: 0 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 6.7 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 4 },
+          { machine_name: 'Base H2O', duration: 3.5 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 0 },
+          { machine_name: 'Hand Sand', duration: 0 },
+          { machine_name: 'Flap Sand', duration: 0 },
+          { machine_name: 'Print', duration: 5 },
+          { machine_name: 'Paint top color', duration: 0 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       },
       {
         name: 'BK-Prt-2b',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 6.7 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 4 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 3.5 },
-          { name: 'Base, Lacquer', duration: 0 },
-          { name: 'Hand Sand', duration: 0.5 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 5 },
-          { name: 'Paint top color', duration: 0 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 6.7 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 4 },
+          { machine_name: 'Base H2O', duration: 3.5 },
+          { machine_name: 'Base, H20, roll', duration: 3.5 },
+          { machine_name: 'Base, Lacquer', duration: 0 },
+          { machine_name: 'Hand Sand', duration: 0.5 },
+          { machine_name: 'Flap Sand', duration: 0 },
+          { machine_name: 'Print', duration: 5 },
+          { machine_name: 'Paint top color', duration: 0 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       },
       {
         name: 'Old Paint',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 10.5 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 1.5 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 0 },
-          { name: 'Hand Sand', duration: 0.5 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 5 },
-          { name: 'Paint top color', duration: 0 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 10.5 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 1.5 },
+          { machine_name: 'Base H2O', duration: 3.5 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 0 },
+          { machine_name: 'Hand Sand', duration: 0.5 },
+          { machine_name: 'Flap Sand', duration: 0 },
+          { machine_name: 'Print', duration: 5 },
+          { machine_name: 'Paint top color', duration: 0 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       },
       {
         name: 'Sbwy',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 9 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 0 },
-          { name: 'Base H2O', duration: 0 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 2.5 },
-          { name: 'Hand Sand', duration: 0.5 },
-          { name: 'Flap Sand', duration: 1 },
-          { name: 'Print', duration: 12 },
-          { name: 'Paint top color', duration: 2.5 },
-          { name: 'Clearcoat', duration: 3.5 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 9 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 0 },
+          { machine_name: 'Base H2O', duration: 0 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 2.5 },
+          { machine_name: 'Hand Sand', duration: 0.5 },
+          { machine_name: 'Flap Sand', duration: 1 },
+          { machine_name: 'Print', duration: 12 },
+          { machine_name: 'Paint top color', duration: 2.5 },
+          { machine_name: 'Clearcoat', duration: 3.5 }
         ]
       },
       {
         name: 'Sawtooth',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 2.5 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 2 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 0 },
-          { name: 'Base H2O', duration: 3.5 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 0 },
-          { name: 'Hand Sand', duration: 0 },
-          { name: 'Flap Sand', duration: 0 },
-          { name: 'Print', duration: 5 },
-          { name: 'Paint top color', duration: 0 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 2.5 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 2 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 0 },
+          { machine_name: 'Base H2O', duration: 3.5 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 0 },
+          { machine_name: 'Hand Sand', duration: 0 },
+          { machine_name: 'Flap Sand', duration: 0 },
+          { machine_name: 'Print', duration: 5 },
+          { machine_name: 'Paint top color', duration: 0 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       },
       {
         name: 'Wave',
-        proceses: [
-          { name: 'Cut Panel', duration: 1 },
-          { name: 'Grain', duration: 0 },
-          { name: 'Groove', duration: 0.75 },
-          { name: 'CNC', duration: 6.3 },
-          { name: 'Inserts', duration: 2 },
-          { name: 'SandBlast', duration: 0 },
-          { name: 'Base H2O', duration: 0 },
-          { name: 'Base, H20, roll', duration: 0 },
-          { name: 'Base, Lacquer', duration: 2.5 },
-          { name: 'Hand Sand', duration: 0 },
-          { name: 'Flap Sand', duration: 1 },
-          { name: 'Print', duration: 0 },
-          { name: 'Paint top color', duration: 2.5 },
-          { name: 'Clearcoat', duration: 0 }
+        processes: [
+          { machine_name: 'Cut Panel', duration: 1 },
+          { machine_name: 'Grain', duration: 0 },
+          { machine_name: 'Groove', duration: 0.75 },
+          { machine_name: 'CNC', duration: 6.3 },
+          { machine_name: 'Inserts', duration: 2 },
+          { machine_name: 'SandBlast', duration: 0 },
+          { machine_name: 'Base H2O', duration: 0 },
+          { machine_name: 'Base, H20, roll', duration: 0 },
+          { machine_name: 'Base, Lacquer', duration: 2.5 },
+          { machine_name: 'Hand Sand', duration: 0 },
+          { machine_name: 'Flap Sand', duration: 1 },
+          { machine_name: 'Print', duration: 0 },
+          { machine_name: 'Paint top color', duration: 2.5 },
+          { machine_name: 'Clearcoat', duration: 0 }
         ]
       }
     ];
@@ -207,5 +195,26 @@ export class PartService {
     TEST_DATA.forEach(data => {
       this.partsCollection.add(data);
     });
+  }
+
+  public search(value: string): Observable<Part[]> {
+    return this.getPartsObservable().pipe(
+      tap(_ => console.log(value)),
+      map(next => {
+        const ret: Part[] = [];
+        next.forEach(part => {
+          // console.log(part);
+          if (part.name.indexOf(value) === 0) {
+            ret.push(part);
+          }
+        });
+        console.log(ret);
+        return ret;
+      })
+    );
+  }
+
+  public addPart(): void {
+    // this.machineService.machineCollection.valueChanges().;
   }
 }
